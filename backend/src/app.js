@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const authRouter = require("./routes/auth.routes");
+const interviewRouter = require("./routes/interview.routes");
 
 const app = express();
 
@@ -41,5 +42,12 @@ app.get("/", (req, res) => {
  * @access Public
  */
 app.use("/api/auth", authRouter);
+
+/**
+ * @route /api/interview
+ * @description: Generate interview report based on candidate's resume, job description, and self-description
+ * @access private
+ */
+app.use("/api/interview", interviewRouter);
 
 module.exports = app;

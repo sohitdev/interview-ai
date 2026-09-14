@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../auth.context.jsx";
 import {
   loginUser,
@@ -16,6 +16,7 @@ export const useAuth = () => {
       const data = await loginUser({ email, password });
       setUser(data.user);
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -27,6 +28,7 @@ export const useAuth = () => {
       const data = await registerUser({ username, email, password });
       setUser(data.user);
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -38,20 +40,26 @@ export const useAuth = () => {
       await logoutUser();
       setUser(null);
     } catch (error) {
-      setLoading(false);
-    }
-  };
-
-  const fetchCurrentUser = async () => {
-    setLoading(true);
-    try {
-      const data = await getCurrentUser();
-      setUser(data.user);
-    } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        setUser(currentUser);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCurrentUser();
+  }, [setUser, setLoading]);
 
   return {
     user,
@@ -59,6 +67,5 @@ export const useAuth = () => {
     handleLogin,
     handleRegister,
     handleLogout,
-    fetchCurrentUser,
   };
 };

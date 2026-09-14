@@ -67,8 +67,7 @@ export async function logoutUser() {
  */
 export async function getCurrentUser() {
   try {
-    const response = await api.get("/api/auth/current-user");
-
+    const response = await api.get("/api/auth/get-me");
     return response.data;
   } catch (error) {
     console.log(error);

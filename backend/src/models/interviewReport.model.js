@@ -14,6 +14,10 @@ const techicalQuestionSchema = new mongoose.Schema(
       type: String,
       required: [true, "Answer is required"],
     },
+    example: {
+      type: String,
+      required: [true, "Example is required"],
+    },
   },
   {
     _id: false,
@@ -33,6 +37,10 @@ const behavioralQuestionSchema = new mongoose.Schema(
     answer: {
       type: String,
       required: [true, "Answer is required"],
+    },
+    example: {
+      type: String,
+      required: [true, "Example is required"],
     },
   },
   {
@@ -67,12 +75,10 @@ const preperationPlanSchema = new mongoose.Schema(
       type: String,
       required: [true, "Focus is required"],
     },
-    tasks: [
-      {
-        type: [String],
-        required: [true, "Tasks are required"],
-      },
-    ],
+    tasks: {
+      type: [String],
+      required: [true, "Tasks are required"],
+    },
   },
   {
     _id: false,
@@ -99,7 +105,7 @@ const interviewReportSchema = new mongoose.Schema(
     },
     technicalQuestions: [techicalQuestionSchema],
     behavioralQuestions: [behavioralQuestionSchema],
-    skillGaps: [skillGapSchema],
+    skillGap: [skillGapSchema],
     preparationPlan: [preperationPlanSchema],
   },
   {
@@ -108,7 +114,7 @@ const interviewReportSchema = new mongoose.Schema(
 );
 
 const interviewReportModel = mongoose.model(
-  "InterviewReport",
+  "interviewReport",
   interviewReportSchema,
 );
 

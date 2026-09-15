@@ -61,6 +61,11 @@ const interviewReportSchema = z.object({
     .describe(
       "A day-by-day plan for the candidate to prepare for the interview",
     ),
+  title: z
+    .string()
+    .describe(
+      "The title of the job for whcih the  interview report is generated",
+    ),
 });
 
 function buildPrompt(resume, jobDescription, selfDescription) {

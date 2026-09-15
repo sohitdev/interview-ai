@@ -2,6 +2,11 @@ const { PDFParse } = require("pdf-parse");
 const generateInterviewReport = require("../services/ai.service.js");
 const interviewReportModel = require("../models/interviewReport.model.js");
 
+/**
+ * @desc Generate interview report based on job description and resume
+ * @route POST /api/interview
+ * @access Private
+ */
 async function generateInterviewReportController(req, res) {
   try {
     const resumeFile = req.file;
@@ -52,6 +57,69 @@ async function generateInterviewReportController(req, res) {
   }
 }
 
+/**
+ * @desc Get interview report by ID
+ * @route GET /api/interview/report/:interviewId
+ * @access Private
+ */
+async function getInterviewReportByIdController(req, res) {
+  try {
+    const { interviewId } = req.params;
+    const interviewReport = await interviewReportModel.findOne({
+      _id: interviewId,
+      user: req.user.id,
+    });
+    if (!interviewReport) {
+      return res.status(404).json({
+        message: "Interview report not found",
+        status: "error",
+      });
+    }
+    res.status(200).json({
+      message: "Interview report fetched successfully",
+      interviewReport,
+      status: "success",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+      status: "error",
+    });
+  }
+}
+
+/**
+ * @desc Get all interview reports for the authenticated user
+ * @route GET /api/interview/reports
+ * @access Private
+ */
+async function getAllInterviewReportsController(req, res) {
+  try {
+    const interviewReports = await interviewReportModel
+      .find({
+        user: req.user.id,
+      })
+      .sort({ createdAt: -1 })
+      .select(
+        "-resume -selfDescription -jobDescription -v -technicalQuestions -behavioralQuestions -skillGap -preparationPlan",
+      );
+    res.status(200).json({
+      message: "Interview reports fetched successfully",
+      interviewReports,
+      status: "success",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+      status: "error",
+    });
+  }
+}
+
 module.exports = {
   generateInterviewReportController,
+  getInterviewReportByIdController,
+  getAllInterviewReportsController,
 };

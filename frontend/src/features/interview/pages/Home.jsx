@@ -1,15 +1,19 @@
 import "../style/home.scss";
 import { useInterview } from "../hooks/useInterview.js";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
 
 const Home = () => {
   const navigation = useNavigate();
 
-  const { loading, generateReport } = useInterview();
+  const { loading, generateReport, reports, getAllReports } = useInterview();
   const [jobDescription, setJobDescription] = useState("");
   const [selfDescription, setSelfDescription] = useState("");
   const resumeInputRef = useRef(null);
+
+  useEffect(() => {
+    getAllReports();
+  }, [getAllReports]);
 
   const handleGenerateReport = async () => {
     const resumeFile = resumeInputRef.current?.files[0] || null;
@@ -158,6 +162,27 @@ const Home = () => {
             </button>
           </footer>
         </div>
+
+        {/* Recent Reports List */}
+        {reports.length > 0 && (
+          <section className="recent-reports">
+            <h2>Recent Interview Plans</h2>
+
+            <ul className="report-list">
+              {reports.map((report) => (
+                <li key={report._id}>
+                  <a href={`/interview/${report._id}`}>
+                    <span className="report-title">{report.title}</span>
+
+                    <span className="report-date">
+                      {new Date(report.createdAt).toLocaleDateString()}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <nav className="page-links" aria-label="Footer navigation">
           <a href="#privacy">Privacy Policy</a>

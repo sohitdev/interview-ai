@@ -244,6 +244,56 @@
     border-top: 1px solid #293242;
   }
 
+  .recent-reports {
+    width: 100%;
+    margin-top: 1.5rem;
+
+    h2 {
+      margin-bottom: 0.75rem;
+      color: #e4e7ef;
+      font-size: 0.95rem;
+    }
+  }
+
+  .report-list {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0;
+    list-style: none;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid #293242;
+      border-radius: 0.45rem;
+      background: #121a24;
+      color: #e9ebf4;
+      text-decoration: none;
+
+      &:hover {
+        border-color: #ff2e7d;
+      }
+    }
+  }
+
+  .report-title {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .report-date {
+    flex-shrink: 0;
+    color: #8e95a7;
+    font-size: 0.68rem;
+  }
+
   .footer-note,
   .page-links {
     width: 100%;
@@ -327,6 +377,12 @@
     .page-links {
       gap: 1rem;
       flex-wrap: wrap;
+    }
+
+    .report-list a {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.35rem;
     }
   }
 }

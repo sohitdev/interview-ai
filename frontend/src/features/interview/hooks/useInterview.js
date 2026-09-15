@@ -52,7 +52,7 @@ export const useInterview = () => {
     [setLoading, setReport],
   );
 
-  const getAllReports = async () => {
+  const getAllReports = useCallback(async () => {
     setLoading(true);
     try {
       const response = await getAllInterviewReports();
@@ -63,7 +63,7 @@ export const useInterview = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [setLoading, setReports]);
 
   return {
     loading,

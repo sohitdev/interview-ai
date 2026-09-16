@@ -1,5 +1,8 @@
 const { PDFParse } = require("pdf-parse");
-const generateInterviewReport = require("../services/ai.service.js");
+const {
+  generateInterviewReport,
+  generateResumePdf,
+} = require("../services/ai.service.js");
 const interviewReportModel = require("../models/interviewReport.model.js");
 
 /**
@@ -118,8 +121,72 @@ async function getAllInterviewReportsController(req, res) {
   }
 }
 
+/**
+ * @desc controller to generate resume pdf based on user resume content, job description and self description
+ * @route POST /api/interview/resume/pdf/:interviewReportId
+ * @access Private
+ */
+async function generateResumePdfController(req, res) {
+  try {
+    const { interviewReportId } = req.params;
+
+    const interviewReport = await interviewReportModel.findOne({
+      _id: interviewReportId,
+      user: req.user.id,
+    });
+
+    if (!interviewReport) {
+      return res.status(404).json({
+        message: "Interview report not found",
+        status: "error",
+      });
+    }
+
+    const { resume, jobDescription, selfDescription } = interviewReport;
+
+    if (!resume || !jobDescription) {
+      return res.status(400).json({
+        message: "Resume content or job description is missing for this report",
+        status: "error",
+      });
+    }
+
+    const pdfBuffer = await generateResumePdf({
+      resume,
+      jobDescription,
+      selfDescription,
+    });
+
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename="resume-${interviewReportId}.pdf"`,
+    });
+    res.status(200).send(pdfBuffer);
+  } catch (error) {
+    console.error("generateResumePdfController error:", error);
+    const providerStatus = Number(error?.status || error?.error?.code);
+    const isProviderUnavailable = [429, 500, 502, 503, 504].includes(
+      providerStatus,
+    );
+
+    if (isProviderUnavailable) {
+      return res.status(503).json({
+        message:
+          "Resume generation service is temporarily unavailable. Please try again.",
+        status: "error",
+      });
+    }
+
+    res.status(500).json({
+      message: "Internal server error",
+      status: "error",
+    });
+  }
+}
+
 module.exports = {
   generateInterviewReportController,
   getInterviewReportByIdController,
   getAllInterviewReportsController,
+  generateResumePdfController,
 };

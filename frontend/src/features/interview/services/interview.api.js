@@ -56,3 +56,55 @@ export const getAllInterviewReports = async () => {
     throw error;
   }
 };
+
+/**
+ * @description service to generate resume pdf based on user selfdescription, resume and job      description
+ */
+
+const buildResumeFilename = (resumeText, interviewReportId) => {
+  const candidateName = resumeText
+    ?.split(/\r?\n/)
+    .map((line) => line.trim())
+    .find((line) => line && !line.startsWith("PDF PARSED TEXT"));
+
+  const safeName = candidateName
+    ?.replace(/[^a-zA-Z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .toLowerCase();
+
+  return safeName
+    ? `${safeName}_resume.pdf`
+    : `resume_${interviewReportId}.pdf`;
+};
+
+export const generateResumePdf = async (interviewReportId, resumeText) => {
+  try {
+    const response = await api.post(
+      `api/interview/resume/pdf/${interviewReportId}`,
+      {},
+      {
+        responseType: "blob", // Important for handling binary data
+      },
+    );
+
+    // Create a Blob from the PDF data
+    const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+
+    // Create a URL for the Blob
+    const pdfUrl = window.URL.createObjectURL(pdfBlob);
+
+    // Create a temporary link element to trigger the download
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download = buildResumeFilename(resumeText, interviewReportId);
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up the temporary link and URL
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(pdfUrl);
+  } catch (error) {
+    console.error("Error generating resume PDF:", error);
+    throw error;
+  }
+};

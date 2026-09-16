@@ -2,6 +2,7 @@ import "../style/interview.scss";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useInterview } from "../hooks/useInterview.js";
+import { generateResumePdf } from "../services/interview.api.js";
 
 const NAV_ITEMS = [
   {
@@ -113,6 +114,8 @@ const RoadMapDay = ({ day }) => (
 // ── Main Component ────────────────────────────────────────────────────────────
 const Interview = () => {
   const [activeNav, setActiveNav] = useState("technical");
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState("");
   const { report, getReportById, loading } = useInterview();
   const { interviewId } = useParams();
 
@@ -138,6 +141,23 @@ const Interview = () => {
         ? "score--mid"
         : "score--low";
 
+  const handleDownloadResume = async () => {
+    if (!report?._id || isDownloading) return;
+
+    setDownloadError("");
+    setIsDownloading(true);
+    try {
+      await generateResumePdf(report._id, report.resume);
+    } catch (error) {
+      setDownloadError(
+        error.response?.data?.message ||
+          "We could not generate your resume. Please try again.",
+      );
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div className="interview-page">
       <div className="interview-layout">
@@ -155,6 +175,37 @@ const Interview = () => {
                 {item.label}
               </button>
             ))}
+          </div>
+          <div className="resume-download">
+            <button
+              className="button primary-button resume-download__button"
+              type="button"
+              onClick={handleDownloadResume}
+              disabled={isDownloading}
+            >
+              <svg
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 3v12" />
+                <path d="m7 10 5 5 5-5" />
+                <path d="M5 21h14" />
+              </svg>
+              {isDownloading ? "Generating PDF..." : "Download Resume"}
+            </button>
+            {downloadError && (
+              <p className="resume-download__error" role="alert">
+                {downloadError}
+              </p>
+            )}
           </div>
         </nav>
 
@@ -219,8 +270,10 @@ const Interview = () => {
           <div className="match-score">
             <p className="match-score__label">Match Score</p>
             <div className={`match-score__ring ${scoreColor}`}>
-              <span className="match-score__value">{scorePercent}</span>
-              <span className="match-score__pct">%</span>
+              <span className="match-score__value-group">
+                <span className="match-score__value">{scorePercent}</span>
+                <span className="match-score__pct">%</span>
+              </span>
             </div>
             <p className="match-score__sub">Strong match for this role</p>
           </div>

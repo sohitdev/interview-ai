@@ -2,6 +2,7 @@ import {
   generateInterviewReport,
   getInterviewReportById,
   getAllInterviewReports,
+  generateResumePdf,
 } from "../services/interview.api.js";
 import { useCallback, useContext } from "react";
 import { InterviewContext } from "../interview.context.jsx";
@@ -65,6 +66,19 @@ export const useInterview = () => {
     }
   }, [setLoading, setReports]);
 
+  const getresumePdf = async (interviewId) => {
+    setLoading(true);
+    try {
+      const response = await generateResumePdf(interviewId);
+      return response;
+    } catch (error) {
+      console.error("Error generating resume PDF:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     report,
@@ -72,5 +86,6 @@ export const useInterview = () => {
     generateReport,
     getReportById,
     getAllReports,
+    getresumePdf,
   };
 };

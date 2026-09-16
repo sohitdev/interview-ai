@@ -28,6 +28,7 @@ $severity-low: #3fb950;
 
 // ── Page Shell ────────────────────────────────────────────────────────────────
 .interview-page {
+  position: relative;
   width: 100%;
   min-height: 100vh;
   background-color: $bg-page;
@@ -66,6 +67,32 @@ $severity-low: #3fb950;
   flex-direction: column;
   justify-content: space-between;
   gap: 0.25rem;
+
+  .resume-download {
+    margin-top: auto;
+    padding: 1rem 0 0;
+    border-top: 1px solid $border-color;
+
+    &__button {
+      width: 100%;
+      min-height: 2.75rem;
+      font-family: $font-stack;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    &__error {
+      margin: 0.65rem 0 0;
+      color: #ff8f8f;
+      font-size: 0.72rem;
+      line-height: 1.4;
+    }
+  }
 
   &__label {
     font-size: 0.7rem;
@@ -390,7 +417,6 @@ $severity-low: #3fb950;
     height: 90px;
     border-radius: 50%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     border: 4px solid;
@@ -415,10 +441,16 @@ $severity-low: #3fb950;
     line-height: 1;
   }
 
+  &__value-group {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+  }
+
   &__pct {
-    font-size: 0.75rem;
+    margin-left: 0.15rem;
+    font-size: 0.85rem;
     color: $text-muted;
-    margin-top: -2px;
   }
 
   &__sub {
@@ -485,5 +517,67 @@ $severity-low: #3fb950;
     color: $severity-low;
     background-color: rgba($severity-low, 0.1);
     border-color: rgba($severity-low, 0.25);
+  }
+}
+
+@media (max-width: 900px) {
+  .interview-page {
+    padding: 0;
+  }
+
+  .interview-layout {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .interview-nav {
+    width: 180px;
+  }
+
+  .interview-sidebar {
+    width: 200px;
+  }
+}
+
+@media (max-width: 700px) {
+  .interview-layout {
+    display: block;
+  }
+
+  .interview-divider {
+    display: none;
+  }
+
+  .interview-nav,
+  .interview-sidebar {
+    width: auto;
+  }
+
+  .interview-nav {
+    padding: 1rem;
+  }
+
+  .interview-nav__item {
+    width: auto;
+    display: inline-flex;
+    margin: 0 0.35rem 0.35rem 0;
+  }
+
+  .interview-nav__label {
+    padding: 0;
+  }
+
+  .resume-download {
+    padding-top: 0.85rem;
+  }
+
+  .interview-content {
+    max-height: none;
+    padding: 1.25rem 1rem 3rem;
+  }
+
+  .interview-sidebar {
+    padding: 1rem;
   }
 }

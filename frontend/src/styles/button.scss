@@ -1,20 +1,28 @@
 .button {
-    border: none;
-    outline: none;
-    padding-inline: 1.5rem;
-    padding-block: 0.75rem;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+  border: none;
+  outline: none;
+  padding-inline: 1.5rem;
+  padding-block: 0.75rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 
-    &.primary-button {
-        background-color: #e1034d;
-        color: white;
-        
+  &.primary-button {
+    background-color: #e1034d;
+    color: white;
 
+    &:hover:not(:disabled) {
+      background-color: #ff2d78;
+      box-shadow: 0 8px 20px rgba(225, 3, 77, 0.25);
     }
 
-    &:active {
-        transform: scale(0.9);
-    }   
+    &:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
 }

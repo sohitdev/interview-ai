@@ -50,4 +50,25 @@ app.use("/api/auth", authRouter);
  */
 app.use("/api/interview", interviewRouter);
 
+/**
+ * 404 handler for unmatched routes
+ */
+app.use((req, res) => {
+  res.status(404).json({
+    message: `Cannot ${req.method} ${req.originalUrl}`,
+    status: "error",
+  });
+});
+
+/**
+ * Centralized error handler
+ */
+app.use((err, req, res, next) => {
+  console.error("Unhandled API error:", err);
+  res.status(err.status || 500).json({
+    message: err.message || "Internal server error",
+    status: "error",
+  });
+});
+
 module.exports = app;

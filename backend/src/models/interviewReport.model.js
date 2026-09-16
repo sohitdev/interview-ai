@@ -85,6 +85,63 @@ const preperationPlanSchema = new mongoose.Schema(
   },
 );
 
+const starFeedbackSchema = new mongoose.Schema(
+  {
+    situation: String,
+    task: String,
+    action: String,
+    result: String,
+  },
+  { _id: false },
+);
+
+const practiceAnswerSchema = new mongoose.Schema(
+  {
+    question: { type: String, required: true },
+    questionType: {
+      type: String,
+      enum: ["technical", "behavioral"],
+      required: true,
+    },
+    candidateAnswer: { type: String, required: true },
+    score: { type: Number, min: 0, max: 10, required: true },
+    strengths: { type: [String], default: [] },
+    improvements: { type: [String], default: [] },
+    starFeedback: starFeedbackSchema,
+    refinedAnswer: { type: String, required: true },
+  },
+  { timestamps: true },
+);
+
+const mockInterviewMessageSchema = new mongoose.Schema(
+  {
+    role: { type: String, enum: ["interviewer", "candidate"], required: true },
+    content: { type: String, required: true },
+    score: Number,
+    feedback: String,
+    timestamp: { type: Date, default: Date.now },
+  },
+  { _id: false },
+);
+
+const mockInterviewSessionSchema = new mongoose.Schema(
+  {
+    status: {
+      type: String,
+      enum: ["in_progress", "completed"],
+      default: "in_progress",
+    },
+    messages: [mockInterviewMessageSchema],
+    finalSummary: {
+      overallScore: Number,
+      communicationRating: Number,
+      technicalRating: Number,
+      feedback: String,
+    },
+  },
+  { timestamps: true },
+);
+
 const interviewReportSchema = new mongoose.Schema(
   {
     jobDescription: {
@@ -107,6 +164,14 @@ const interviewReportSchema = new mongoose.Schema(
     behavioralQuestions: [behavioralQuestionSchema],
     skillGap: [skillGapSchema],
     preparationPlan: [preperationPlanSchema],
+    practiceAnswers: [practiceAnswerSchema],
+    tailoredResumeData: { type: mongoose.Schema.Types.Mixed },
+    atsKeywords: {
+      matched: [String],
+      missing: [String],
+      score: Number,
+    },
+    mockInterviewSessions: [mockInterviewSessionSchema],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",

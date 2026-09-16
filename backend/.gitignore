@@ -24,8 +24,18 @@ coverage/
 *.seed
 *.pid.lock
 
+# Testing & Authentication Artifacts
+cookies.txt
+cookies*.txt
+*.cookie
+
+# Temporary & Upload Files
+uploads/
+*.pdf
+
 # macOS
 .DS_Store
 
 # Optional local tooling
 .vscode/
+.idea/

@@ -25,13 +25,14 @@
 - [Verification & Quality Assurance](#-verification--quality-assurance)
 - [Production Deployment](#-production-deployment)
 - [Security](#-security)
-- [License](#-license)
+- [Copyright](#-copyright)
 
 ---
 
 ## 🌟 Key Capabilities
 
 ### 1. Career Intelligence & Prep Plan Engine
+
 - **Multi-Modal Input**: Upload a resume PDF, paste a self-description, or both — analyzed against the target job description.
 - **Deep Gap Analysis**: Quantifies skill gaps with `Low`, `Medium`, `High` severity ratings and remediation guidance.
 - **Question Matrix**: Generates role-specific technical and behavioral questions with model answers, interviewer intentions, and key concepts.
@@ -39,12 +40,14 @@
 - **Match Score Ring**: Circular visual indicator measuring overall profile-to-role alignment (0–100).
 
 ### 2. "Practice Your Answer" & STAR Evaluation
+
 - **Collapsible Per-Question Drawers**: Every question card expands into a dedicated practice zone.
 - **Voice Dictation (STT)**: Hands-free verbal responses powered by the Web Speech API with animated recording indicators.
 - **STAR Methodology AI Diagnostics**: Structured critique analyzing Situation, Task, Action, and Result framing.
 - **0–10 Score with Exemplar**: Quantitative evaluation with actionable feedback and a top-tier sample answer.
 
 ### 3. Resume Studio (Full-Screen Workspace)
+
 - **Full-Screen Takeover**: Opens as a dedicated full-screen workspace rather than a cramped popup modal.
 - **Dark/Light Mode Toggle**: Theme switcher is accessible directly from inside the Resume Studio header.
 - **3 Designer PDF Templates**: Classic (serif), Modern (blue sans-serif), and Minimal (Swiss typographic).
@@ -62,17 +65,20 @@
 - **Conditional Rendering**: Empty sections (deleted or cleared) are completely omitted from the PDF — no blank headings or ghost spacing.
 
 ### 4. Interactive AI Mock Interviewer
+
 - **Hiring Panel Simulation**: Turn-by-turn conversational roleplay simulating a senior technical interviewer.
 - **Text-to-Speech (TTS)**: Web Speech Synthesis reads questions aloud in real time.
 - **Per-Turn Coaching**: Instant feedback and score after each answer.
 - **Executive Scorecard**: End-of-interview assessment with Overall Score, Technical Competence, and Communication ratings.
 
 ### 5. Dashboard & Report Management
+
 - **Previous Interviews Page**: Dedicated `/interviews` route listing all past interview reports as cards.
 - **Full CRUD Lifecycle**: Rename and delete interview plans directly from the dashboard.
 - **Instant SPA Navigation**: Zero-lag client-side routing via React Router.
 
 ### 6. UI Design System
+
 - **Tailwind CSS v4**: Custom design tokens via `@theme` in `index.css` mapping native CSS variables.
 - **Light & Dark Mode**: Fully dynamic theme switching via `ThemeContext`, persisted to `localStorage` and respects `prefers-color-scheme`.
 - **Soft Zinc Palette**: `#fafafa` light canvas, `#0e0e0f` dark canvas — no harsh pure white or pitch black.
@@ -247,21 +253,21 @@ Open `http://localhost:5173` in your browser.
 
 ### Backend (`backend/.env`)
 
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `PORT` | No | `3000` | HTTP port the Express server listens on. |
-| `CLIENT_URL` | **Yes** | `http://localhost:5173` | Exact frontend origin for CORS. |
-| `MONGO_URI` | **Yes** | — | MongoDB connection URI. |
-| `JWT_SECRET` | **Yes** | — | Secret for signing/verifying session tokens. |
-| `GOOGLE_GEMINI_API_KEY` | **Yes** | — | Google AI Studio API key (server-side only). |
-| `GEMINI_MODEL` | No | `gemini-2.5-flash` | Primary Gemini model. |
-| `GEMINI_FALLBACK_MODEL` | No | `gemini-2.0-flash` | Fallback model on rate-limit errors. |
+| Variable                | Required | Default                 | Description                                  |
+| ----------------------- | -------- | ----------------------- | -------------------------------------------- |
+| `PORT`                  | No       | `3000`                  | HTTP port the Express server listens on.     |
+| `CLIENT_URL`            | **Yes**  | `http://localhost:5173` | Exact frontend origin for CORS.              |
+| `MONGO_URI`             | **Yes**  | —                       | MongoDB connection URI.                      |
+| `JWT_SECRET`            | **Yes**  | —                       | Secret for signing/verifying session tokens. |
+| `GOOGLE_GEMINI_API_KEY` | **Yes**  | —                       | Google AI Studio API key (server-side only). |
+| `GEMINI_MODEL`          | No       | `gemini-2.5-flash`      | Primary Gemini model.                        |
+| `GEMINI_FALLBACK_MODEL` | No       | `gemini-2.0-flash`      | Fallback model on rate-limit errors.         |
 
 ### Frontend (`frontend/.env.local`)
 
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `VITE_API_BASE_URL` | **Yes** | `http://localhost:3000` | Base URL of the backend Express server. |
+| Variable            | Required | Default                 | Description                             |
+| ------------------- | -------- | ----------------------- | --------------------------------------- |
+| `VITE_API_BASE_URL` | **Yes**  | `http://localhost:3000` | Base URL of the backend Express server. |
 
 ---
 
@@ -269,36 +275,38 @@ Open `http://localhost:5173` in your browser.
 
 All `/api/interview/*` routes require a valid authenticated session via HTTP-only `token` cookie.
 
-| Method | Endpoint | Auth | Purpose |
-|---|---|---|---|
-| `POST` | `/api/auth/register` | Public | Create a new user account |
-| `POST` | `/api/auth/login` | Public | Authenticate user and issue JWT cookie |
-| `GET` | `/api/auth/logout` | Required | Invalidate token and clear cookie |
-| `GET` | `/api/auth/get-me` | Required | Fetch current authenticated user profile |
-| `POST` | `/api/interview/` | Required | Upload resume PDF + generate AI interview report |
-| `GET` | `/api/interview/reports` | Required | List all interview reports for the user |
-| `GET` | `/api/interview/report/:id` | Required | Fetch full details of one interview report |
-| `PATCH` | `/api/interview/report/:id` | Required | Rename an interview report |
-| `DELETE` | `/api/interview/report/:id` | Required | Permanently delete an interview report |
-| `POST` | `/api/interview/evaluate-answer` | Required | Evaluate a practice answer with STAR AI feedback |
-| `GET` | `/api/interview/resume/studio/:id` | Required | Get tailored resume JSON + ATS keyword scores |
-| `PUT` | `/api/interview/resume/studio/:id` | Required | Save edited resume draft sections to MongoDB |
-| `POST` | `/api/interview/resume/pdf/:id` | Required | Generate and stream tailored resume PDF (Puppeteer) |
-| `POST` | `/api/interview/mock/:id/start` | Required | Initialize a mock interview session |
-| `POST` | `/api/interview/mock/:id/turn` | Required | Submit candidate answer turn + receive coaching |
-| `GET` | `/api/interview/mock/:id/session` | Required | Fetch active or completed mock session scorecard |
+| Method   | Endpoint                           | Auth     | Purpose                                             |
+| -------- | ---------------------------------- | -------- | --------------------------------------------------- |
+| `POST`   | `/api/auth/register`               | Public   | Create a new user account                           |
+| `POST`   | `/api/auth/login`                  | Public   | Authenticate user and issue JWT cookie              |
+| `GET`    | `/api/auth/logout`                 | Required | Invalidate token and clear cookie                   |
+| `GET`    | `/api/auth/get-me`                 | Required | Fetch current authenticated user profile            |
+| `POST`   | `/api/interview/`                  | Required | Upload resume PDF + generate AI interview report    |
+| `GET`    | `/api/interview/reports`           | Required | List all interview reports for the user             |
+| `GET`    | `/api/interview/report/:id`        | Required | Fetch full details of one interview report          |
+| `PATCH`  | `/api/interview/report/:id`        | Required | Rename an interview report                          |
+| `DELETE` | `/api/interview/report/:id`        | Required | Permanently delete an interview report              |
+| `POST`   | `/api/interview/evaluate-answer`   | Required | Evaluate a practice answer with STAR AI feedback    |
+| `GET`    | `/api/interview/resume/studio/:id` | Required | Get tailored resume JSON + ATS keyword scores       |
+| `PUT`    | `/api/interview/resume/studio/:id` | Required | Save edited resume draft sections to MongoDB        |
+| `POST`   | `/api/interview/resume/pdf/:id`    | Required | Generate and stream tailored resume PDF (Puppeteer) |
+| `POST`   | `/api/interview/mock/:id/start`    | Required | Initialize a mock interview session                 |
+| `POST`   | `/api/interview/mock/:id/turn`     | Required | Submit candidate answer turn + receive coaching     |
+| `GET`    | `/api/interview/mock/:id/session`  | Required | Fetch active or completed mock session scorecard    |
 
 ---
 
 ## 🧪 Verification & Quality Assurance
 
 ### Frontend Production Build
+
 ```bash
 cd frontend && npm run build
 # ✓ 5100+ modules transformed, 0 errors
 ```
 
 ### Backend Syntax Check
+
 ```bash
 cd backend && node -e "require('./server.js')"
 ```
@@ -308,6 +316,7 @@ cd backend && node -e "require('./server.js')"
 ## 🛡️ Production Deployment
 
 ### Puppeteer Linux Dependencies
+
 Required for PDF generation on Ubuntu/Debian servers:
 
 ```bash
@@ -320,6 +329,7 @@ sudo apt-get update && sudo apt-get install -y \
 ```
 
 ### Nginx Config (Reverse Proxy)
+
 ```nginx
 server {
     listen 443 ssl http2;
@@ -340,6 +350,7 @@ server {
 ```
 
 ### Process Management (PM2)
+
 ```bash
 cd backend
 pm2 start server.js --name "interview-ai-api"
@@ -357,7 +368,3 @@ pm2 save && pm2 startup
 - **Secret Isolation**: All API keys and credentials remain strictly server-side. `.env` and `.env.local` are gitignored.
 
 ---
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).

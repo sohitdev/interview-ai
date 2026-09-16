@@ -58,6 +58,34 @@ export const getAllInterviewReports = async () => {
 };
 
 /**
+ * @description service to delete an interview report by id
+ */
+export const deleteInterviewReport = async (interviewId) => {
+  try {
+    const response = await api.delete(`api/interview/report/${interviewId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting interview report:", error);
+    throw error;
+  }
+};
+
+/**
+ * @description service to rename an interview report title
+ */
+export const renameInterviewReport = async (interviewId, title) => {
+  try {
+    const response = await api.patch(`api/interview/report/${interviewId}`, {
+      title,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error renaming interview report:", error);
+    throw error;
+  }
+};
+
+/**
  * @description service to generate resume pdf based on user selfdescription, resume and job      description
  */
 
@@ -77,11 +105,16 @@ const buildResumeFilename = (resumeText, interviewReportId) => {
     : `resume_${interviewReportId}.pdf`;
 };
 
-export const generateResumePdf = async (interviewReportId, resumeText) => {
+export const generateResumePdf = async (
+  interviewReportId,
+  resumeText,
+  template = "classic",
+  resumeData = null,
+) => {
   try {
     const response = await api.post(
-      `api/interview/resume/pdf/${interviewReportId}`,
-      {},
+      `api/interview/resume/pdf/${interviewReportId}?template=${template}`,
+      { template, resumeData },
       {
         responseType: "blob", // Important for handling binary data
       },
@@ -105,6 +138,126 @@ export const generateResumePdf = async (interviewReportId, resumeText) => {
     window.URL.revokeObjectURL(pdfUrl);
   } catch (error) {
     console.error("Error generating resume PDF:", error);
+    throw error;
+  }
+};
+
+export const getPreviewResumePdfUrl = async (
+  interviewReportId,
+  template = "classic",
+  resumeData = null,
+) => {
+  try {
+    const response = await api.post(
+      `api/interview/resume/pdf/${interviewReportId}?template=${template}`,
+      { template, resumeData },
+      { responseType: "blob" }
+    );
+    const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+    return window.URL.createObjectURL(pdfBlob);
+  } catch (error) {
+    console.error("Error generating preview PDF:", error);
+    throw error;
+  }
+};
+
+/**
+ * @description service to evaluate a candidate's answer with AI
+ */
+export const evaluateAnswer = async ({
+  interviewId,
+  question,
+  questionType,
+  candidateAnswer,
+  intention,
+  modelAnswer,
+}) => {
+  try {
+    const response = await api.post("api/interview/evaluate-answer", {
+      interviewId,
+      question,
+      questionType,
+      candidateAnswer,
+      intention,
+      modelAnswer,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error evaluating answer:", error);
+    throw error;
+  }
+};
+
+/**
+ * @description service to get resume studio data (tailored JSON and ATS keywords)
+ */
+export const getResumeStudioData = async (interviewReportId) => {
+  try {
+    const response = await api.get(
+      `api/interview/resume/studio/${interviewReportId}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching resume studio data:", error);
+    throw error;
+  }
+};
+
+/**
+ * @description service to save tailored resume data
+ */
+export const saveResumeStudioData = async (interviewReportId, resumeData) => {
+  try {
+    const response = await api.put(
+      `api/interview/resume/studio/${interviewReportId}`,
+      { resumeData },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error saving resume studio data:", error);
+    throw error;
+  }
+};
+
+/**
+ * @description service to start mock interview
+ */
+export const startMockInterview = async (interviewId) => {
+  try {
+    const response = await api.post(`api/interview/mock/${interviewId}/start`);
+    return response.data;
+  } catch (error) {
+    console.error("Error starting mock interview:", error);
+    throw error;
+  }
+};
+
+/**
+ * @description service to send candidate turn in mock interview
+ */
+export const sendMockInterviewTurn = async (interviewId, candidateAnswer) => {
+  try {
+    const response = await api.post(`api/interview/mock/${interviewId}/turn`, {
+      candidateAnswer,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error sending mock interview answer:", error);
+    throw error;
+  }
+};
+
+/**
+ * @description service to get mock interview session
+ */
+export const getMockInterviewSession = async (interviewId) => {
+  try {
+    const response = await api.get(
+      `api/interview/mock/${interviewId}/session`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching mock interview session:", error);
     throw error;
   }
 };

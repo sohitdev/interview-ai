@@ -1,88 +1,73 @@
-# Interview AI Frontend
+# Interview AI — Frontend
 
-React and Vite client for the Interview AI platform. Users can register, sign in, upload a PDF resume, generate an interview report, review preparation content, and download an AI-tailored resume PDF.
+React 19 + Vite 6 + Tailwind CSS v4 SPA for the Interview AI platform.
 
-## Requirements
+## Stack
 
-- Node.js 20 or newer
-- The backend running locally or a deployed backend URL
+- **React 19** — UI library
+- **Vite 6** — Build tool and dev server
+- **Tailwind CSS v4** — Utility-first styling via `@theme` CSS variable tokens
+- **Framer Motion** — Entrance animations and layout transitions
+- **React Router** — Client-side routing
+- **Axios** — HTTP client for backend API calls
+- **@phosphor-icons/react** — Icon system
+- **Geist** — `Geist Sans` and `Geist Mono` font system
 
-## Setup
-
-From this directory:
+## Quick Start
 
 ```bash
 npm install
 cp .env.example .env.local
+# Set VITE_API_BASE_URL=http://localhost:3000
 npm run dev
 ```
 
-The development server runs at `http://localhost:5173` by default.
+Open `http://localhost:5173`.
 
-## Environment variables
+## Environment Variables
 
-Create `frontend/.env.local` from `.env.example`:
+| Variable | Required | Description |
+|---|---|---|
+| `VITE_API_BASE_URL` | **Yes** | Backend Express API base URL |
 
-| Variable            | Required | Description                                         |
-| ------------------- | -------- | --------------------------------------------------- |
-| `VITE_API_BASE_URL` | Yes      | Backend origin, for example `http://localhost:3000` |
+## Design System
 
-Only variables prefixed with `VITE_` are exposed to browser code. Never put database credentials, JWT secrets, Gemini keys, or other private values in this file.
+The entire design system lives in [`src/index.css`](src/index.css):
+
+- **CSS variables** defined in `:root` (light mode) and `.dark` (dark mode)
+- **Tailwind `@theme`** maps those variables to Tailwind utility classes (`text-ink`, `bg-canvas`, etc.)
+- **Dark mode** toggled by adding the `.dark` class to `<html>`, managed by `ThemeContext`
+
+### Color Tokens
+
+| Token | Light | Dark | Usage |
+|---|---|---|---|
+| `--canvas` | `#fafafa` | `#141415` | Page background |
+| `--canvas-soft` | `#f4f4f5` | `#0e0e0f` | Navbar, toolbar backgrounds |
+| `--canvas-soft-2` | `#e4e4e7` | `#1f1f22` | Input backgrounds, chips |
+| `--ink` | `#171717` | `#ededed` | Primary text |
+| `--body` | `#4d4d4d` | `#a1a1a1` | Secondary text |
+| `--mute` | `#888888` | `#888888` | Placeholder / disabled text |
+| `--hairline` | `#e4e4e7` | `#27272a` | Borders |
+| `--primary` | `#171717` | `#ededed` | Active/brand color |
+
+### Shadow Elevation
+
+Cards use an `elevation` prop (1–5) mapped to CSS shadow tokens:
+
+| Level | Usage |
+|---|---|
+| `1` | Subtle lift |
+| `2` | Standard card |
+| `3` | Modal header |
+| `4` | Dropdown / popover |
+| `5` | Full-screen overlay |
 
 ## Scripts
 
-| Command           | Purpose                                 |
-| ----------------- | --------------------------------------- |
-| `npm run dev`     | Start Vite with hot reload              |
-| `npm run build`   | Create the production bundle in `dist/` |
-| `npm run preview` | Serve the production bundle locally     |
-| `npm run lint`    | Run ESLint                              |
-
-## Application routes
-
-- `/login` - sign in
-- `/register` - create an account
-- `/` - authenticated report dashboard
-- `/interview/:interviewId` - authenticated interview report
-
-The client uses cookie credentials for authentication. The backend must allow the frontend origin through CORS.
-
-## Production deployment
-
-1. Set `VITE_API_BASE_URL` to the public backend origin before building.
-2. Run `npm run build`.
-3. Serve `dist/` from a static host or CDN.
-4. Configure the backend `CLIENT_URL` to the deployed frontend origin.
-5. Serve the application over HTTPS so authentication cookies and API traffic are protected in transit.
-
-## Project structure
-
-```text
-src/
-	features/
-		auth/       Authentication pages, context, hooks, and API client
-		interview/  Report generation, report views, PDF download, and styles
-	App.jsx       Application routes and providers
-	main.jsx      Browser entry point
-```
-
-## Security notes
-
-- Do not commit `.env`, `.env.local`, or generated build output.
-- Do not expose backend secrets through `VITE_` variables.
-- The frontend assumes the backend validates ownership of every report requested for PDF generation.
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Script | Description |
+|---|---|
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Production build to `dist/` |
+| `npm run lint` | Run ESLint |
+| `npm run preview` | Preview production build locally |

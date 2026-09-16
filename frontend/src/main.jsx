@@ -1,5 +1,7 @@
+import "@fontsource/geist-sans";
+import "@fontsource/geist-mono";
 import App from "./App.jsx";
-import "./style.scss";
+import "./index.css";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 

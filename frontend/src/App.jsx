@@ -5,13 +5,18 @@ import { AuthProvider } from "./features/auth/auth.context.jsx";
 import Protected from "./features/auth/components/protected.jsx";
 import Home from "./features/interview/pages/Home.jsx";
 import Interview from "./features/interview/pages/Interview.jsx";
+import InterviewsList from "./features/interview/pages/InterviewsList.jsx";
 import { InterviewProvider } from "./features/interview/interview.context.jsx";
+import { ToastProvider } from "./context/toast.context.jsx";
+import { ThemeProvider } from "./context/theme.context.jsx";
 
 const App = () => {
   return (
-    <AuthProvider>
-      <InterviewProvider>
-        <Routes>
+    <ThemeProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <InterviewProvider>
+          <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route
@@ -23,6 +28,14 @@ const App = () => {
             }
           />
           <Route
+            path="/interviews"
+            element={
+              <Protected>
+                <InterviewsList />
+              </Protected>
+            }
+          />
+          <Route
             path="/interview/:interviewId"
             element={
               <Protected>
@@ -30,9 +43,11 @@ const App = () => {
               </Protected>
             }
           />
-        </Routes>
-      </InterviewProvider>
-    </AuthProvider>
+          </Routes>
+        </InterviewProvider>
+      </AuthProvider>
+    </ToastProvider>
+    </ThemeProvider>
   );
 };
 

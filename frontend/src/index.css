@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-mute: var(--mute);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-canvas: var(--canvas);
+  --color-canvas-soft: var(--canvas-soft);
+  --color-canvas-soft-2: var(--canvas-soft-2);
+  --color-link: var(--link);
+  --color-link-deep: var(--link-deep);
+
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --color-error-soft: var(--error-soft);
+  --color-warning: var(--warning);
+
+  --font-sans: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', monospace;
+
+  /* Shadows - stacked */
+  --shadow-level-1: var(--shadow-1);
+  --shadow-level-2: var(--shadow-2);
+  --shadow-level-3: var(--shadow-3);
+  --shadow-level-4: var(--shadow-4);
+  --shadow-level-5: var(--shadow-5);
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill-sm: 64px;
+  --radius-pill: 100px;
+}
+
+:root {
+  --primary: #171717;
+  --on-primary: #ffffff;
+  --ink: #171717;
+  --body: #4d4d4d;
+  --mute: #888888;
+  --hairline: #e4e4e7;
+  --hairline-strong: #d4d4d8;
+  --canvas: #fafafa;
+  --canvas-soft: #f4f4f5;
+  --canvas-soft-2: #e4e4e7;
+  --link: #0070f3;
+  --link-deep: #0761d1;
+  --success: #0070f3;
+  --error: #ee0000;
+  --error-soft: #f7d4d6;
+  --warning: #f5a623;
+
+  --shadow-1: 0 2px 4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.06);
+  --shadow-2: 0 4px 12px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.06);
+  --shadow-3: 0 12px 24px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06);
+  --shadow-4: 0 24px 48px rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.06);
+  --shadow-5: 0 32px 64px rgba(0,0,0,0.20), 0 0 0 1px rgba(0,0,0,0.06);
+}
+
+.dark {
+  --primary: #ededed;
+  --on-primary: #000000;
+  --ink: #ededed;
+  --body: #a1a1a1;
+  --mute: #888888;
+  --hairline: #27272a;
+  --hairline-strong: #3f3f46;
+  --canvas: #141415;
+  --canvas-soft: #0e0e0f;
+  --canvas-soft-2: #1f1f22;
+  --link: #3291ff;
+  --link-deep: #52a8ff;
+  --success: #3291ff;
+  --error: #ff4757;
+  --error-soft: #4a151b;
+  --warning: #f5a623;
+
+  --shadow-1: 0 2px 4px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1);
+  --shadow-2: 0 8px 16px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1);
+  --shadow-3: 0 16px 32px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1);
+  --shadow-4: 0 24px 48px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1);
+  --shadow-5: 0 32px 64px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+@layer base {
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  body {
+    background-color: var(--canvas-soft);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Basic reset for headings */
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: 600;
+  }
+}

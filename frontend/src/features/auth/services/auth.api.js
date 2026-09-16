@@ -14,17 +14,12 @@ const api = axios.create({
  * @returns {Promise<Object>} A promise that resolves to the registered user's data
  */
 export async function registerUser({ username, email, password }) {
-  try {
-    const response = await api.post("/api/auth/register", {
-      username,
-      email,
-      password,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await api.post("/api/auth/register", {
+    username,
+    email,
+    password,
+  });
+  return response.data;
 }
 
 /**
@@ -34,31 +29,21 @@ export async function registerUser({ username, email, password }) {
  * @param {string} param0.password - The user's password
  * @returns {Promise<Object>} A promise that resolves to the logged-in user's data
  */
-
 export async function loginUser({ email, password }) {
-  try {
-    const response = await api.post("/api/auth/login", {
-      email,
-      password,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await api.post("/api/auth/login", {
+    email,
+    password,
+  });
+  return response.data;
 }
 
 /**
  * Logs out the current user
  * @returns {Promise<void>} A promise that resolves when the user is logged out
  */
-
 export async function logoutUser() {
-  try {
-    await api.get("/api/auth/logout");
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await api.get("/api/auth/logout");
+  return response.data;
 }
 
 /**
@@ -69,7 +54,7 @@ export async function getCurrentUser() {
   try {
     const response = await api.get("/api/auth/get-me");
     return response.data;
-  } catch (error) {
-    console.log(error);
+  } catch {
+    return null;
   }
 }

@@ -574,7 +574,15 @@ async function generateResumePdf({
   }
 
   const html = buildResumeHtml(structuredData, template);
-  const browser = await puppeteer.launch({ headless: "shell" });
+  const browser = await puppeteer.launch({
+    headless: "shell",
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+    ],
+  });
   try {
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0" });

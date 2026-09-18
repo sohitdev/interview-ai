@@ -3,8 +3,8 @@ const { z } = require("zod");
 const puppeteer = require("puppeteer");
 
 const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GEMINI_API_KEY });
-const primaryModel = process.env.GEMINI_MODEL || "gemini-3.6-flash";
-const fallbackModel = process.env.GEMINI_FALLBACK_MODEL || "gemini-3.5-flash";
+const primaryModel = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const fallbackModel = process.env.GEMINI_FALLBACK_MODEL || "gemini-2.0-flash";
 const transientAiStatuses = new Set([429, 500, 502, 503, 504]);
 
 function getAiStatus(error) {

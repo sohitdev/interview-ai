@@ -3,7 +3,6 @@ services:
     name: interview-ai-backend
     runtime: docker
     rootDir: backend
-    startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production

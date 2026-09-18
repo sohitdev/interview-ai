@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useInterview } from "../hooks/useInterview.js";
 import { useToast } from "../../../context/toast.context.jsx";
 import { Card } from "../../../components/ui/Card.jsx";
+import { motion } from "motion/react";
 import { Button } from "../../../components/ui/Button.jsx";
 import { Trash, PencilSimple, ArrowLeft } from "@phosphor-icons/react";
 
@@ -42,9 +43,9 @@ const InterviewsList = () => {
   };
 
   return (
-    <div className="pb-24 max-w-5xl mx-auto">
+    <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{duration:0.5,ease:[0.16,1,0.3,1]}} className="pb-24 max-w-[1400px] mx-auto px-6">
       <header className="py-8 md:py-12">
-        <Link to="/" className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-mute hover:text-ink transition-colors mb-4">
+        <Link to="/" className="inline-flex items-center gap-1 text-sm font-medium text-body hover:text-ink transition-colors mb-4">
           <ArrowLeft className="w-4 h-4" /> Back to Generator
         </Link>
         <div className="flex items-end justify-between border-b border-hairline pb-6">
@@ -100,7 +101,7 @@ const InterviewsList = () => {
           ))}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

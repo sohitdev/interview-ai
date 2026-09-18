@@ -31,7 +31,7 @@ export const ResumeContentEditor = ({ resumeData, setResumeData }) => {
       
       {/* Header Info */}
       <section className="space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-mute border-b border-hairline pb-2">Personal Information</h3>
+        <h3 className="text-sm font-medium text-body border-b border-hairline pb-2">Personal Information</h3>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-xs font-medium text-body mb-1 block">Full Name</label>
@@ -62,7 +62,7 @@ export const ResumeContentEditor = ({ resumeData, setResumeData }) => {
 
       {/* Professional Summary */}
       <section className="space-y-3">
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-mute border-b border-hairline pb-2">Professional Summary</h3>
+        <h3 className="text-sm font-medium text-body border-b border-hairline pb-2">Professional Summary</h3>
         <textarea
           className="w-full min-h-[100px] bg-canvas-soft border border-hairline rounded-md p-3 text-sm text-ink focus:outline-none focus:border-primary resize-y"
           value={resumeData.objective || ""}
@@ -73,7 +73,7 @@ export const ResumeContentEditor = ({ resumeData, setResumeData }) => {
       {/* Experience */}
       <section className="space-y-4">
         <div className="flex items-center justify-between border-b border-hairline pb-2">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-mute">Experience</h3>
+          <h3 className="text-sm font-medium text-body">Experience</h3>
           <button className="text-xs text-primary font-medium flex items-center hover:underline" onClick={() => addArrayItem('experience', { role: '', company: '', dates: '', location: '', bullets: [''] })}>
             <Plus weight="bold" className="mr-1" /> Add Role
           </button>
@@ -116,7 +116,7 @@ export const ResumeContentEditor = ({ resumeData, setResumeData }) => {
       {/* Projects */}
       <section className="space-y-4">
         <div className="flex items-center justify-between border-b border-hairline pb-2">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-mute">Projects</h3>
+          <h3 className="text-sm font-medium text-body">Projects</h3>
           <button className="text-xs text-primary font-medium flex items-center hover:underline" onClick={() => addArrayItem('projects', { title: '', description: '', bullets: [] })}>
             <Plus weight="bold" className="mr-1" /> Add Project
           </button>
@@ -157,7 +157,7 @@ export const ResumeContentEditor = ({ resumeData, setResumeData }) => {
       {/* Education */}
       <section className="space-y-4">
         <div className="flex items-center justify-between border-b border-hairline pb-2">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-mute">Education</h3>
+          <h3 className="text-sm font-medium text-body">Education</h3>
           <button className="text-xs text-primary font-medium flex items-center hover:underline" onClick={() => addArrayItem('education', { degree: '', institution: '', dates: '', details: '' })}>
             <Plus weight="bold" className="mr-1" /> Add Education
           </button>
@@ -180,7 +180,7 @@ export const ResumeContentEditor = ({ resumeData, setResumeData }) => {
       {/* Skills */}
       <section className="space-y-4">
         <div className="flex items-center justify-between border-b border-hairline pb-2">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-mute">Technical Skills</h3>
+          <h3 className="text-sm font-medium text-body">Technical Skills</h3>
           <button className="text-xs text-primary font-medium flex items-center hover:underline" onClick={() => addArrayItem('skills', { category: 'New Category', items: [] })}>
             <Plus weight="bold" className="mr-1" /> Add Category
           </button>
@@ -188,7 +188,7 @@ export const ResumeContentEditor = ({ resumeData, setResumeData }) => {
         {(resumeData.skills || []).map((skill, idx) => (
           <div key={idx} className="flex flex-col gap-1.5 relative group pl-2 border-l-2 border-transparent hover:border-hairline-strong transition-colors">
             <div className="flex items-center justify-between">
-              <input className="bg-transparent border-none text-xs font-semibold uppercase tracking-wider text-ink focus:outline-none focus:text-primary p-0 w-48" value={skill.category} onChange={e => updateArrayItem('skills', idx, { ...skill, category: e.target.value })} />
+              <input className="bg-transparent border-none text-sm font-medium text-ink focus:outline-none focus:text-primary p-0 w-48" value={skill.category} onChange={e => updateArrayItem('skills', idx, { ...skill, category: e.target.value })} />
               <button className="text-mute hover:text-error opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => removeArrayItem('skills', idx)}>
                 <Trash size={14} weight="bold" />
               </button>
@@ -213,7 +213,7 @@ export const ResumeContentEditor = ({ resumeData, setResumeData }) => {
       {/* Custom Sections */}
       <section className="space-y-4">
         <div className="flex items-center justify-between border-b border-hairline pb-2">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-mute">Custom Sections</h3>
+          <h3 className="text-sm font-medium text-body">Custom Sections</h3>
           <button className="text-xs text-primary font-medium flex items-center hover:underline" onClick={() => addArrayItem('customSections', { heading: 'Custom Section', items: [] })}>
             <Plus weight="bold" className="mr-1" /> Add Custom Section
           </button>

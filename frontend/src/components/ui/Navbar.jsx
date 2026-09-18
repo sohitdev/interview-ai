@@ -15,7 +15,8 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="h-16 border-b border-hairline bg-canvas flex items-center justify-between px-6 sticky top-0 z-50">
+    <nav className="h-16 border-b border-hairline bg-canvas sticky top-0 z-50">
+      <div className="max-w-[1400px] mx-auto w-full h-full flex items-center justify-between px-6">
       <div className="flex items-center gap-8">
         <Link to="/" className="flex items-center gap-2 text-ink font-semibold tracking-tight">
           <Sparkle weight="fill" className="text-primary w-5 h-5" />
@@ -46,6 +47,7 @@ export const Navbar = () => {
             <Link to="/register"><Button variant="primary" size="sm">Sign Up</Button></Link>
           </div>
         )}
+      </div>
       </div>
     </nav>
   );

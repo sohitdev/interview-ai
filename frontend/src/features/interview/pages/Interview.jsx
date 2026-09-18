@@ -86,7 +86,13 @@ const QuestionCard = ({ item, index, questionType, interviewId, initialPractice 
   const scoreColor = evaluation?.score >= 8 ? "text-success" : evaluation?.score >= 6 ? "text-warning" : "text-error";
 
   return (
-    <Card elevation="2" padding="none" className="mb-4">
+    <motion.div 
+      initial={{opacity:0, y:8}} 
+      whileInView={{opacity:1, y:0}} 
+      viewport={{once:true}} 
+      transition={{delay: Math.min(index * 0.05, 0.5)}}
+    >
+      <Card elevation="2" padding="none" className="mb-4">
       <button className="w-full text-left p-5 flex items-start gap-4 hover:bg-canvas-soft transition-colors" onClick={() => setOpen(!open)}>
         <span className="text-sm font-mono text-mute mt-1 shrink-0">Q{String(index + 1).padStart(2, "0")}</span>
         <div className="flex-1">
@@ -112,11 +118,11 @@ const QuestionCard = ({ item, index, questionType, interviewId, initialPractice 
             <div className="px-5 pb-5 border-t border-hairline pt-5 flex flex-col gap-5">
               
               <div className="bg-canvas-soft-2 rounded-md p-4 border border-hairline">
-                <div className="flex gap-2 items-center text-xs font-semibold uppercase tracking-wider text-mute mb-2">
+                <div className="flex gap-2 items-center text-sm font-medium text-body mb-2">
                   <Info className="w-4 h-4" /> Intention
                 </div>
                 <p className="text-sm text-body">{item.intention}</p>
-                <div className="flex gap-2 items-center text-xs font-semibold uppercase tracking-wider text-mute mt-4 mb-2">
+                <div className="flex gap-2 items-center text-sm font-medium text-body mt-4 mb-2">
                   <CheckCircle className="w-4 h-4" /> Model Answer
                 </div>
                 <p className="text-sm text-body">{item.answer}</p>
@@ -156,7 +162,7 @@ const QuestionCard = ({ item, index, questionType, interviewId, initialPractice 
                   <div className="grid md:grid-cols-2 gap-4">
                     {evaluation.strengths?.length > 0 && (
                       <div className="bg-success/5 border border-success/20 rounded-md p-4">
-                        <h5 className="text-xs font-semibold uppercase tracking-wider text-success mb-3">Strengths</h5>
+                        <h5 className="text-sm font-medium text-success mb-3">Strengths</h5>
                         <ul className="flex flex-col gap-2">
                           {evaluation.strengths.map((s, i) => (
                             <li key={i} className="text-sm text-body flex items-start gap-2">
@@ -169,7 +175,7 @@ const QuestionCard = ({ item, index, questionType, interviewId, initialPractice 
                     )}
                     {evaluation.improvements?.length > 0 && (
                       <div className="bg-warning/5 border border-warning/20 rounded-md p-4">
-                        <h5 className="text-xs font-semibold uppercase tracking-wider text-warning mb-3">Improvements</h5>
+                        <h5 className="text-sm font-medium text-warning mb-3">Improvements</h5>
                         <ul className="flex flex-col gap-2">
                           {evaluation.improvements.map((s, i) => (
                             <li key={i} className="text-sm text-body flex items-start gap-2">
@@ -184,7 +190,7 @@ const QuestionCard = ({ item, index, questionType, interviewId, initialPractice 
 
                   {evaluation.starFeedback && (
                     <div className="border border-hairline rounded-md overflow-hidden">
-                      <div className="bg-canvas-soft px-4 py-2 border-b border-hairline text-xs font-semibold uppercase tracking-wider text-mute">
+                      <div className="bg-canvas-soft px-4 py-2 border-b border-hairline text-sm font-medium text-body">
                         STAR Framework
                       </div>
                       <div className="grid sm:grid-cols-2 md:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-hairline">
@@ -203,7 +209,7 @@ const QuestionCard = ({ item, index, questionType, interviewId, initialPractice 
                   {evaluation.refinedAnswer && (
                     <div className="bg-canvas-soft-2 border border-hairline rounded-md p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-semibold uppercase tracking-wider text-mute">Ideal Answer</span>
+                        <span className="text-sm font-medium text-body">Ideal Answer</span>
                         <Button variant="ghost" size="sm" className="h-6 px-2 text-xs" onClick={() => {
                           navigator.clipboard?.writeText(evaluation.refinedAnswer);
                           showToast("Copied!", "success");
@@ -221,6 +227,7 @@ const QuestionCard = ({ item, index, questionType, interviewId, initialPractice 
         )}
       </AnimatePresence>
     </Card>
+    </motion.div>
   );
 };
 
@@ -260,6 +267,7 @@ const Interview = () => {
   const [isResumeStudioOpen, setIsResumeStudioOpen] = useState(false);
   const { report, getReportById, loading } = useInterview();
   const { interviewId } = useParams();
+  const [isFullScreenMock, setIsFullScreenMock] = useState(false);
 
   useEffect(() => {
     if (interviewId) getReportById(interviewId);
@@ -278,10 +286,10 @@ const Interview = () => {
   const scoreBorder = scorePercent >= 80 ? "border-success" : scorePercent >= 60 ? "border-warning" : "border-error";
 
   return (
-    <div className="pb-24">
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+    <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{duration:0.5,ease:[0.16,1,0.3,1]}} className="pb-24 px-6 max-w-[1400px] mx-auto">
+      {!(activeNav === "mock" && isFullScreenMock) && (<header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <Link to="/" className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-mute hover:text-ink transition-colors mb-2">
+          <Link to="/" className="inline-flex items-center gap-1 text-sm font-medium text-body hover:text-ink transition-colors mb-2">
             <ArrowLeft className="w-4 h-4" /> All Plans
           </Link>
           <h1 className="text-3xl font-semibold tracking-tight text-ink">{report.title}</h1>
@@ -294,14 +302,14 @@ const Interview = () => {
             <Play className="w-4 h-4 mr-2" /> Mock Session
           </Button>
         </div>
-      </header>
+      </header>)}
 
       <div className="flex flex-col lg:flex-row gap-8">
         
         {/* Left Nav */}
-        <aside className="lg:w-64 shrink-0">
+        {!(activeNav === "mock" && isFullScreenMock) && (<aside className="lg:w-64 shrink-0">
           <div className="sticky top-24 flex flex-col gap-1">
-            <div className="text-xs font-semibold uppercase tracking-wider text-mute mb-2 px-3">Curriculum</div>
+            <div className="text-sm font-medium text-body mb-2 px-3">Curriculum</div>
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.id}
@@ -313,7 +321,7 @@ const Interview = () => {
               </button>
             ))}
           </div>
-        </aside>
+        </aside>)}
 
         {/* Center Content */}
         <main className="flex-1 min-w-0">
@@ -361,16 +369,16 @@ const Interview = () => {
 
           {activeNav === "mock" && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <MockInterviewRoom interviewId={report._id} roleTitle={report.title} />
+              <MockInterviewRoom interviewId={report._id} roleTitle={report.title} isFullscreen={isFullScreenMock} onToggleFullscreen={() => setIsFullScreenMock(!isFullScreenMock)} />
             </div>
           )}
         </main>
 
         {/* Right Sidebar (Match & Gaps) */}
-        <aside className="lg:w-72 shrink-0">
+        {!(activeNav === "mock" && isFullScreenMock) && (<aside className="lg:w-72 shrink-0">
           <div className="sticky top-24 flex flex-col gap-6">
             <Card elevation="2" padding="lg">
-              <div className="text-xs font-semibold uppercase tracking-wider text-mute mb-4">Match Score</div>
+              <div className="text-sm font-medium text-body mb-4">Match Score</div>
               <div className="flex items-center gap-4">
                 <div className={`relative w-16 h-16 rounded-full flex items-center justify-center border-4 ${scoreBorder}`}>
                   <span className={`font-mono font-bold text-xl ${scoreColor}`}>{scorePercent}</span>
@@ -385,7 +393,7 @@ const Interview = () => {
             </Card>
 
             <Card elevation="2" padding="lg">
-              <div className="text-xs font-semibold uppercase tracking-wider text-mute mb-4">Skill Gaps</div>
+              <div className="text-sm font-medium text-body mb-4">Skill Gaps</div>
               <div className="flex flex-wrap gap-2">
                 {report.skillGap.map((gap, i) => (
                   <div key={i} className={`flex items-center gap-1.5 px-2 py-1 rounded-sm text-xs font-medium ${gap.severity === 'High' ? 'bg-error/10 text-error border border-error/20' : gap.severity === 'Medium' ? 'bg-warning/10 text-warning border border-warning/20' : 'bg-canvas-soft-2 text-mute border border-hairline'}`}>
@@ -395,7 +403,7 @@ const Interview = () => {
               </div>
             </Card>
           </div>
-        </aside>
+        </aside>)}
 
       </div>
 
@@ -405,7 +413,7 @@ const Interview = () => {
         interviewReportId={report._id}
         resumeText={report.resume}
       />
-    </div>
+    </motion.div>
   );
 };
 

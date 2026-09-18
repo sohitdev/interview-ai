@@ -190,7 +190,7 @@ const ResumeStudioModal = ({ isOpen, onClose, interviewReportId, resumeText }) =
               </Card>
 
               <div>
-                <h4 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-success mb-4">
+                <h4 className="flex items-center gap-2 text-sm font-medium text-success mb-4">
                   <CheckCircle weight="fill" className="w-5 h-5" /> Matched Keywords
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -203,7 +203,7 @@ const ResumeStudioModal = ({ isOpen, onClose, interviewReportId, resumeText }) =
               </div>
 
               <div>
-                <h4 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-error mb-4">
+                <h4 className="flex items-center gap-2 text-sm font-medium text-error mb-4">
                   <WarningCircle weight="fill" className="w-5 h-5" /> Missing Keywords
                 </h4>
                 <div className="flex flex-wrap gap-2">

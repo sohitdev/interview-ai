@@ -24,7 +24,7 @@ export const Button = ({
   const sizes = {
     sm: 'h-8 px-3 text-sm rounded-sm',
     md: 'h-10 px-4 text-sm rounded-md',
-    lg: 'h-12 px-6 text-base rounded-pill', // marketing scale pill
+    lg: 'h-12 px-6 text-base rounded-lg',
     icon: 'h-10 w-10 rounded-full',
   };
 

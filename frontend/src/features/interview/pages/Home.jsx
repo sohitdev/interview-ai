@@ -2,6 +2,7 @@ import { useInterview } from "../hooks/useInterview.js";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "../../../context/toast.context.jsx";
+import { motion } from "motion/react";
 import { Button } from "../../../components/ui/Button.jsx";
 import { Card } from "../../../components/ui/Card.jsx";
 import { FilePdf, Briefcase, User, Plus } from "@phosphor-icons/react";
@@ -60,19 +61,24 @@ const Home = () => {
   }
 
   return (
-    <div className="pb-16">
-      <header className="py-8 flex flex-col items-center text-center">
-        <h1 className="text-3xl md:text-5xl font-semibold tracking-[-0.04em] text-ink mb-4">
-          Architect Your Winning Strategy.
+    <motion.div 
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="pb-12 pt-4 max-w-5xl mx-auto px-6"
+    >
+      <header className="pt-8 pb-8 flex flex-col items-center text-center">
+        <h1 className="text-3xl md:text-5xl font-semibold tracking-[-0.04em] text-ink mb-3 max-w-3xl">
+          Target the role. Land the offer.
         </h1>
-        <p className="text-base md:text-lg text-body max-w-[65ch]">
-          Precision AI analysis benchmarking candidate credentials against deep role requirements.
+        <p className="text-base md:text-lg text-body leading-relaxed max-w-[60ch]">
+          We analyze your experience against the exact job description to give you a personalized interview roadmap and mock sessions.
         </p>
       </header>
 
-      <div className="grid lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid lg:grid-cols-2 gap-6 mb-6">
         {/* Left Panel: Target Job Description */}
-        <Card elevation="2" padding="xl" className="flex flex-col">
+        <Card elevation="2" padding="lg" className="flex flex-col">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-canvas-soft border border-hairline flex items-center justify-center shrink-0">
               <Briefcase className="w-5 h-5 text-ink" />
@@ -85,7 +91,7 @@ const Home = () => {
           
           <div className="flex flex-col">
             <textarea
-              className="w-full h-[180px] bg-canvas-soft-2 border border-hairline rounded-md p-4 text-sm focus:outline-none focus:border-hairline-strong resize-none transition-colors"
+              className="w-full h-[160px] bg-canvas-soft-2 border border-hairline rounded-md p-4 text-sm focus:outline-none focus:border-hairline-strong resize-none transition-colors"
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
               placeholder="e.g., Senior Software Engineer at Stripe: Looking for deep expertise in distributed systems, TypeScript, API architecture, and high-availability database design..."
@@ -97,7 +103,7 @@ const Home = () => {
         </Card>
 
         {/* Right Panel: Candidate Profile */}
-        <Card elevation="2" padding="xl" className="flex flex-col">
+        <Card elevation="2" padding="lg" className="flex flex-col">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-canvas-soft border border-hairline flex items-center justify-center shrink-0">
               <User className="w-5 h-5 text-ink" />
@@ -134,7 +140,7 @@ const Home = () => {
 
             <div className="flex flex-col">
               <textarea
-                className="w-full h-[100px] bg-canvas-soft-2 border border-hairline rounded-md p-4 text-sm focus:outline-none focus:border-hairline-strong resize-none transition-colors"
+                className="w-full h-[80px] bg-canvas-soft-2 border border-hairline rounded-md p-4 text-sm focus:outline-none focus:border-hairline-strong resize-none transition-colors"
                 value={selfDescription}
                 onChange={(e) => setSelfDescription(e.target.value)}
                 placeholder="Briefly describe your years of experience, core tech stack, standout achievements..."
@@ -144,14 +150,14 @@ const Home = () => {
         </Card>
       </div>
 
-      <div className="flex justify-center mb-24">
+      <div className="flex justify-center mb-12">
         <Button size="lg" onClick={handleGenerateReport} className="shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-full md:w-auto px-12">
           <Plus weight="bold" className="w-5 h-5 mr-2" />
           Generate Strategy
         </Button>
       </div>
 
-    </div>
+    </motion.div>
   );
 };
 

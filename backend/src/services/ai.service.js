@@ -576,6 +576,7 @@ async function generateResumePdf({
   const html = buildResumeHtml(structuredData, template);
   const browser = await puppeteer.launch({
     headless: "shell",
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",

@@ -9,6 +9,7 @@ ehthumbs.db
 node_modules/
 .pnp
 .pnp.js
+skills-lock.json
 
 # Environment Variables & Secrets
 .env

@@ -7,6 +7,7 @@ import { Button } from "../../../components/ui/Button.jsx";
 import { Card } from "../../../components/ui/Card.jsx";
 import { Sparkle } from "@phosphor-icons/react";
 import { ThemeToggle } from "../../../components/ui/ThemeToggle.jsx";
+import { motion } from "motion/react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -36,45 +37,45 @@ const Login = () => {
 
   if (loading) {
     return (
-      <main className="flex h-screen items-center justify-center">
+      <main className="flex h-screen items-center justify-center bg-canvas-soft">
         <span className="text-sm font-medium text-mute">Loading...</span>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen flex bg-canvas-soft relative">
+    <motion.main 
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="min-h-screen flex bg-canvas-soft relative"
+    >
       <div className="absolute top-4 right-4 z-50">
         <ThemeToggle />
       </div>
 
       {/* Left side branding */}
-      <div className="hidden lg:flex flex-col flex-1 bg-primary text-on-primary p-12 relative overflow-hidden">
-        <div className="relative z-10 flex items-center gap-2 font-semibold text-xl tracking-tight mb-auto">
-          <Sparkle weight="fill" className="text-cyan w-6 h-6" />
+      <div className="hidden lg:flex flex-col flex-1 bg-primary text-on-primary p-12 justify-between">
+        <div className="flex items-center gap-2 font-semibold text-xl tracking-tight">
+          <Sparkle weight="fill" className="text-accent w-6 h-6" />
           <span>Interview AI</span>
         </div>
         
-        <div className="relative z-10 max-w-lg mt-auto">
+        <div className="max-w-lg">
           <h1 className="text-4xl md:text-5xl font-semibold tracking-[-0.04em] leading-[1.1] mb-6">
             Master your next interview.
           </h1>
-          <p className="text-lg text-mute mb-8">
+          <p className="text-lg text-on-primary/70">
             Precision AI analysis benchmarking your credentials against deep role requirements.
           </p>
         </div>
-
-        {/* Mesh gradient mock background */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none" style={{
-          background: 'radial-gradient(circle at top left, var(--color-link), transparent 50%), radial-gradient(circle at bottom right, var(--color-warning), transparent 50%)'
-        }}></div>
       </div>
 
       {/* Right side form */}
       <div className="flex-1 flex items-center justify-center p-6 sm:p-12">
         <div className="w-full max-w-[400px]">
           <div className="mb-8 lg:hidden flex items-center gap-2 font-semibold text-xl tracking-tight justify-center">
-            <Sparkle weight="fill" className="text-primary w-6 h-6" />
+            <Sparkle weight="fill" className="text-accent w-6 h-6" />
             <span>Interview AI</span>
           </div>
 
@@ -119,7 +120,7 @@ const Login = () => {
           </Card>
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 };
 

@@ -7,9 +7,9 @@ import {
 import { useToast } from "../../../context/toast.context.jsx";
 import { Button } from "../../../components/ui/Button.jsx";
 import { Card } from "../../../components/ui/Card.jsx";
-import { MicrophoneStage, SpeakerHigh, Microphone, PaperPlaneRight, Lightbulb, ChatCircleText, ChartLineUp, ArrowCounterClockwise } from "@phosphor-icons/react";
+import { MicrophoneStage, SpeakerHigh, Microphone, PaperPlaneRight, Lightbulb, ChatCircleText, ChartLineUp, ArrowCounterClockwise, CornersIn, CornersOut } from "@phosphor-icons/react";
 
-const MockInterviewRoom = ({ interviewId, roleTitle }) => {
+const MockInterviewRoom = ({ interviewId, roleTitle, isFullscreen, onToggleFullscreen }) => {
   const { showToast } = useToast();
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -158,10 +158,10 @@ const MockInterviewRoom = ({ interviewId, roleTitle }) => {
   }
 
   return (
-    <Card elevation="1" padding="none" className="flex flex-col border border-hairline overflow-hidden min-h-[600px] max-h-[80vh]">
+    <Card elevation="1" padding="none" className={`flex flex-col border border-hairline overflow-hidden transition-all duration-300 ${isFullscreen ? "h-[85vh] max-h-none" : "min-h-[600px] max-h-[80vh]"}`}>
       <header className="px-6 py-4 border-b border-hairline bg-canvas-soft flex items-center justify-between shrink-0">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-mute mb-1">
+          <div className="flex items-center gap-2 text-sm font-medium text-body mb-1">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
@@ -171,12 +171,19 @@ const MockInterviewRoom = ({ interviewId, roleTitle }) => {
           <h2 className="text-lg font-semibold tracking-tight text-ink">AI Mock Interviewer</h2>
           <p className="text-sm text-body line-clamp-1">Simulating hiring panel for {roleTitle}</p>
         </div>
-        {!session || session.status === "completed" ? (
-          <Button onClick={handleStart} disabled={isStarting}>
-            <MicrophoneStage className="w-4 h-4 mr-2" />
-            {isStarting ? "Calibrating..." : session ? "Retake Interview" : "Start Mock Session"}
-          </Button>
-        ) : null}
+        <div className="flex items-center gap-4">
+          {!session || session.status === "completed" ? (
+            <Button onClick={handleStart} disabled={isStarting}>
+              <MicrophoneStage className="w-4 h-4 mr-2" />
+              {isStarting ? "Calibrating..." : session ? "Retake Interview" : "Start Mock Session"}
+            </Button>
+          ) : null}
+          {onToggleFullscreen && (
+            <Button variant="ghost" size="icon" onClick={onToggleFullscreen} className="text-mute hover:text-ink">
+              {isFullscreen ? <CornersIn className="w-5 h-5" /> : <CornersOut className="w-5 h-5" />}
+            </Button>
+          )}
+        </div>
       </header>
 
       {!session ? (
@@ -226,7 +233,7 @@ const MockInterviewRoom = ({ interviewId, roleTitle }) => {
                   <div className={`mt-2 p-3 rounded-md text-sm border flex items-start gap-3 w-full max-w-lg ${msg.role === 'candidate' ? 'bg-canvas-soft-2 border-hairline text-body' : 'bg-warning/5 border-warning/20 text-ink'}`}>
                     <Lightbulb weight="fill" className={`w-5 h-5 shrink-0 mt-0.5 ${msg.role === 'candidate' ? 'text-mute' : 'text-warning'}`} />
                     <div>
-                      <strong className="block text-xs font-semibold uppercase tracking-wider mb-1">Instant Coaching Tip</strong>
+                      <strong className="block text-sm font-medium mb-1">Instant Coaching Tip</strong>
                       <p className="leading-snug">{msg.feedback}</p>
                     </div>
                   </div>
@@ -253,7 +260,7 @@ const MockInterviewRoom = ({ interviewId, roleTitle }) => {
                 <Card elevation="2" padding="xl" className="border border-success/20 bg-success/5 max-w-2xl mx-auto">
                   <div className="flex items-start justify-between mb-8 pb-6 border-b border-success/10">
                     <div>
-                      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-success mb-2">
+                      <div className="flex items-center gap-2 text-sm font-medium text-success mb-2">
                         <ChartLineUp weight="bold" className="w-4 h-4" /> Session Completed
                       </div>
                       <h3 className="text-xl font-semibold tracking-tight text-ink">Evaluation Scorecard</h3>
@@ -265,21 +272,21 @@ const MockInterviewRoom = ({ interviewId, roleTitle }) => {
 
                   <div className="grid grid-cols-3 gap-4 mb-8">
                     <div className="bg-canvas border border-hairline rounded-md p-4 text-center shadow-sm">
-                      <div className="text-xs font-semibold uppercase tracking-wider text-mute mb-1">Overall</div>
+                      <div className="text-sm font-medium text-body mb-1">Overall</div>
                       <div className="text-2xl font-mono font-bold text-ink">{session.finalSummary.overallScore}/10</div>
                     </div>
                     <div className="bg-canvas border border-hairline rounded-md p-4 text-center shadow-sm">
-                      <div className="text-xs font-semibold uppercase tracking-wider text-mute mb-1">Communication</div>
+                      <div className="text-sm font-medium text-body mb-1">Communication</div>
                       <div className="text-2xl font-mono font-bold text-ink">{session.finalSummary.communicationRating}/10</div>
                     </div>
                     <div className="bg-canvas border border-hairline rounded-md p-4 text-center shadow-sm">
-                      <div className="text-xs font-semibold uppercase tracking-wider text-mute mb-1">Technical</div>
+                      <div className="text-sm font-medium text-body mb-1">Technical</div>
                       <div className="text-2xl font-mono font-bold text-ink">{session.finalSummary.technicalRating}/10</div>
                     </div>
                   </div>
 
                   <div>
-                    <strong className="block text-sm font-semibold uppercase tracking-wider text-ink mb-2">Strategic Recommendations</strong>
+                    <strong className="block text-sm font-medium text-ink mb-2">Strategic Recommendations</strong>
                     <p className="text-sm leading-relaxed text-body bg-canvas p-4 rounded-md border border-hairline">{session.finalSummary.feedback}</p>
                   </div>
                 </Card>

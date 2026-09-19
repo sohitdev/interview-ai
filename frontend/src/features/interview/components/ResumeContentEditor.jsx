@@ -1,5 +1,4 @@
 import { Trash, Plus } from "@phosphor-icons/react";
-import { Button } from "../../../components/ui/Button.jsx";
 
 export const ResumeContentEditor = ({ resumeData, setResumeData }) => {
   const updateField = (field, value) => {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTheme } from '../../context/theme.context.jsx';
 import { Button } from './Button.jsx';
 import { Moon, Sun } from '@phosphor-icons/react';
